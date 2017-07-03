@@ -4,6 +4,7 @@ import { NavController, AlertController, LoadingController } from 'ionic-angular
 import { HomePage } from '../home/home';
 import { Headers, RequestOptions } from '@angular/http';
 
+
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html'
@@ -30,7 +31,7 @@ export class RegisterPage {
         loader.present();
         let header: Headers = new Headers();
         header.append('Content-Type', 'application/json');
-        header.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
+        header.append('Authorization', 'B   asic YWRtaW46YWRtaW4=');
         let options = new RequestOptions({headers: header});
         this.user = {name : this.name,email: this.email, pwd: this.password};
         this.http.post('http://localhost:8080/goid',this.user,options)

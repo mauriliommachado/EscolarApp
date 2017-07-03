@@ -37,7 +37,7 @@ export class LoginPage {
         .map(res => res.text())
        .toPromise().then(user => {
            this.user = user;
-           this.navCtrl.setRoot(HomePage);
+           this.navCtrl.setRoot(HomePage,{'user': user});
            loader.dismiss();
         }, err =>{
             console.log(err);
