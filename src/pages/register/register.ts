@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, LoadingController } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs';
+import { HomePage } from '../home/home';
 import { Headers, RequestOptions } from '@angular/http';
 
 
@@ -63,7 +63,7 @@ export class RegisterPage {
         .map(res => res.text())
        .toPromise().then(user => {
            this.user = user;
-           this.navCtrl.setRoot(TabsPage,{'user': user});
+           this.navCtrl.setRoot(HomePage,{'user': user});
            loader.dismiss();
         }, err =>{
             console.log(err);

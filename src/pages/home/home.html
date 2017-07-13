@@ -6,13 +6,13 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let room of rooms">
+    <ion-item *ngFor="let room of rooms" (click)="SelecionaSala(room)">
       <ion-avatar item-start >
         <img src='assets/avatar.png'>
       </ion-avatar>
       <h2>{{room.Name}}</h2>
       <p>{{room.Tag}}</p>
-      <ion-note item-end>01:37</ion-note>
+      <ion-note item-end>{{room.LastMessage | date:'HH:mm'}}</ion-note>
   </ion-item>
 </ion-list>
 </ion-content>

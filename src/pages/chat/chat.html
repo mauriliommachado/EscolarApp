@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{room.Name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list id="item-list">
+    <ion-item *ngFor="let message of room.Messages" no-lines>
+        <b>{{message.createdBy | nomePipe:users}}:</b> {{message.Text}}
+        <ion-note item-end>{{message.createdIn | date:'HH:mm'}}</ion-note>
+    </ion-item>
+</ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+  <ion-item>
+    <ion-input placeholder="Mensagem..." [(ngModel)]="message"></ion-input>
+    <button ion-button round small item-end (click)='send()'>Send</button>
+  </ion-item>
+  </ion-toolbar>
+</ion-footer>

@@ -7,12 +7,16 @@ import { HttpModule} from '@angular/http';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { ChatPage } from '../pages/chat/chat';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { NomePipe } from '../pages/chat/nomePipe';
+
+import { ApiService } from '../providers/restapi-service/restapi-service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
@@ -23,9 +27,10 @@ import 'rxjs/add/operator/toPromise';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ChatPage,
+    NomePipe
   ],
   imports: [
     HttpModule,
@@ -38,14 +43,16 @@ import 'rxjs/add/operator/toPromise';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ChatPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    NomePipe,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ApiService
   ]
 })
 export class AppModule {}
