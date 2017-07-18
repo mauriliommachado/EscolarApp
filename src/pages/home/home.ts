@@ -29,17 +29,19 @@ export class HomePage {
     }
 
     ionViewDidEnter(){
+        this.reset();
+    }
+
+    reset(){
         this.rooms = [];
         this.messages  = [];
         this.Users = [];
         this.getChats();
     }
 
+
     getChats(){
-        let loader = this.loadingCtrl.create({
-            content: "Carregando chats, aguarde...",
-        });
-        loader.present();
+
         let hash = this.user.token;
         let header: Headers = new Headers();
         header.append('Content-Type', 'application/json');
@@ -48,16 +50,14 @@ export class HomePage {
         this.http.get('http://localhost:8081/goroom/user/'+ this.user.id, options)
         .map(res => res.text())
         .toPromise().then(rooms => {
-            JSON.parse(rooms).forEach(element => {
-                this.getMessages(element);
-                this.getContacts(element.users.toString())
-            });
-            loader.dismiss();
+            if(rooms.length>4){
+                JSON.parse(rooms).forEach(element => {
+                    this.getMessages(element);
+                    this.getContacts(element.users.toString())
+                });
+            }
         }, err =>{
             console.log(err);
-
-            loader.dismiss(); 
-
             this.alertCtrl.create({
                 title: 'Falha no login',
                 buttons: [{ text: 'Ok' }],
@@ -127,5 +127,56 @@ export class HomePage {
     SelecionaSala(room: Room){
         this.navCtrl.push(ChatPage,{'room': room,'users': this.Users,'user': this.user});
     }
+
+    add(){
+    let prompt = this.alertCtrl.create({
+      title: 'Novo Chat',
+      message: "Digite o nome do chat",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Nome'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Criar',
+          handler: data => {
+              console.log(data.name.replace(/\s/g,''));
+            let room : Room = new Room({name: data.name, tag:"@"+data.name.replace(/\s/g,'')});
+            let hash = this.user.token;
+            let header: Headers = new Headers();
+            header.append('Content-Type', 'application/json');
+            header.append('Authorization', 'Basic '+ hash);
+            let options = new RequestOptions({headers: header});
+            this.http.post('http://localhost:8081/goroom', room, options)
+                .map(res => res.text())
+                .toPromise().then(data => {
+                this.reset();
+                }, err =>{
+                    console.log(err);
+                    this.alertCtrl.create({
+                        title: 'Falha no login',
+                        buttons: [{ text: 'Ok' }],
+                        subTitle: 'Não foi possível fazer o login com os dados enviados.' 
+                    }).present();
+                });
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  busca(){
+      console.log("busca")
+  }
+    
 
 }

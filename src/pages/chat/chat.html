@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{room.Name}}</ion-title>
+      <ion-buttons end>
+      <button ion-button icon-only (click)="addUser()">
+        <ion-icon name="person-add"></ion-icon>
+    </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -15,6 +20,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
+    
   <ion-item>
     <ion-input placeholder="Mensagem..." [(ngModel)]="message"></ion-input>
     <button ion-button round small item-end (click)='send()'>Send</button>

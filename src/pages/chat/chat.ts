@@ -90,4 +90,8 @@ export class ChatPage {
         });
     }
 
+    addUser(){
+      console.log('addUser');
+    }
+
 }
