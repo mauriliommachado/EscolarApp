@@ -6,7 +6,6 @@ import { User } from '../../domain/chat/user'
 import { Message } from '../../domain/chat/message'
 import { Component, ViewChild } from '@angular/core';
 import { Content } from 'ionic-angular';
-import { NomePipe } from '../chat/nomePipe'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -85,9 +84,11 @@ export class ChatPage {
   }
 
     scrollToBottom(content) {
+      if(content){
         setTimeout(() => {
             content.scrollToBottom();
         });
+      }
     }
 
     addUser(){

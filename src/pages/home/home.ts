@@ -129,53 +129,93 @@ export class HomePage {
     }
 
     add(){
-    let prompt = this.alertCtrl.create({
-      title: 'Novo Chat',
-      message: "Digite o nome do chat",
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'Nome'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Criar',
-          handler: data => {
-              console.log(data.name.replace(/\s/g,''));
-            let room : Room = new Room({name: data.name, tag:"@"+data.name.replace(/\s/g,'')});
-            let hash = this.user.token;
-            let header: Headers = new Headers();
-            header.append('Content-Type', 'application/json');
-            header.append('Authorization', 'Basic '+ hash);
-            let options = new RequestOptions({headers: header});
-            this.http.post('http://localhost:8081/goroom', room, options)
-                .map(res => res.text())
-                .toPromise().then(data => {
-                this.reset();
-                }, err =>{
-                    console.log(err);
-                    this.alertCtrl.create({
-                        title: 'Falha no login',
-                        buttons: [{ text: 'Ok' }],
-                        subTitle: 'Não foi possível fazer o login com os dados enviados.' 
-                    }).present();
-                });
-          }
-        }
-      ]
-    });
-    prompt.present();
+        let prompt = this.alertCtrl.create({
+        title: 'Novo Chat',
+        message: "Digite o nome do chat",
+        inputs: [
+            {
+            name: 'name',
+            placeholder: 'Nome'
+            },
+        ],
+        buttons: [
+            {
+            text: 'Cancelar',
+            handler: data => {
+                console.log('Cancel clicked');
+            }
+            },
+            {
+            text: 'Criar',
+            handler: data => {
+                console.log(data.name.replace(/\s/g,''));
+                let room : Room = new Room({name: data.name, tag:"@"+data.name.replace(/\s/g,'')});
+                let hash = this.user.token;
+                let header: Headers = new Headers();
+                header.append('Content-Type', 'application/json');
+                header.append('Authorization', 'Basic '+ hash);
+                let options = new RequestOptions({headers: header});
+                this.http.post('http://localhost:8081/goroom', room, options)
+                    .map(res => res.text())
+                    .toPromise().then(data => {
+                    this.reset();
+                    }, err =>{
+                        console.log(err);
+                        this.alertCtrl.create({
+                            title: 'Falha no login',
+                            buttons: [{ text: 'Ok' }],
+                            subTitle: 'Não foi possível fazer o login com os dados enviados.' 
+                        }).present();
+                    });
+            }
+            }
+        ]
+        });
+        prompt.present();
   }
 
   busca(){
-      console.log("busca")
+    let prompt = this.alertCtrl.create({
+    title: 'Adicionar Chat',
+    message: "Digite o tag do chat",
+    inputs: [
+            {
+            name: 'tag',
+            placeholder: 'Tag'
+            },
+        ],
+    buttons: [
+            {
+            text: 'Cancelar',
+            handler: data => {
+                console.log('Cancel clicked');
+            }
+            },
+            {
+            text: 'Adicionar',
+            handler: data => {
+                let hash = this.user.token;
+                let header: Headers = new Headers();
+                header.append('Content-Type', 'application/json');
+                header.append('Authorization', 'Basic '+ hash);
+                let options = new RequestOptions({headers: header});
+                this.http.post('http://localhost:8081/goroom/'+data.tag+"/users", null,options)
+                    .map(res => res.text())
+                    .toPromise().then(data => {
+                    this.reset();
+                    }, err =>{
+                        console.log(err);
+                        this.alertCtrl.create({
+                            title: 'Falha no login',
+                            buttons: [{ text: 'Ok' }],
+                            subTitle: 'Não foi possível fazer o login com os dados enviados.' 
+                        }).present();
+                    });
+            }
+        }
+    ]
+    });
+    prompt.present();
   }
     
 
